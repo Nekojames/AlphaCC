@@ -334,36 +334,39 @@
         }
 
         function calculateAndDisplay(hours, elementId, includeExtraHour) {
-            const membershipFee = getSelectedMembershipFee();
-            const isPremium = isPremiumSelected();
-            const frequency = parseInt(document.getElementById("frequency").value) || 1;
             let premiumExtra = 0;
 
-            if (isPremium) {
-                const inputPremium = parseFloat(document.getElementById('premiumAmount').value) || 0;
-                if (hours > 6) premiumExtra += 25;
-                premiumExtra += inputPremium * 25;
-                if (includeExtraHour) hours += 1;
+if (isPremium) {
+    const inputPremium = parseFloat(document.getElementById('premiumAmount').value) || 0;
+    if (hours > 6) premiumExtra += 25;
+    premiumExtra += inputPremium * 25;
+    if (includeExtraHour) hours += 1;
+}
+
             }
 
-            const voucherValue = getVoucherDiscount(hours); // numeric
-            const voucher = getVoucherPrice(hours); // string for display
-            const regular = 53 * hours * frequency;
-            const average = 75 * hours * frequency;
-            const discounted = 23 * hours;
-            const membership = (discounted * frequency) + premiumExtra;
-            const totalMembership = membership + membershipFee;
-            const totalDiscountedPerMonth = discounted * frequency;
-            const savingsVsNational = average - totalMembership;
-            let voucherTotal = 0;
-            if (hours > 6) {
-                voucherTotal = 79 + ((hours - 6) * 23);
-            } else {
-                voucherTotal = getVoucherDiscount(hours);
-            }
-            const savingsWithVoucher = regular - (voucherTotal + membershipFee);
-            const savingsWithVoucher2 = average - (voucherTotal + membershipFee); // ✅ Correct logic
-            voucherTotal2 = voucherTotal + membershipFee;
+            const voucherValue = getVoucherDiscount(totalHours);
+const voucher = getVoucherPrice(totalHours);
+const regular = 53 * totalHours * frequency;
+const average = 75 * totalHours * frequency;
+const discounted = 23 * totalHours;
+const membership = (discounted * frequency) + premiumExtra;
+const totalMembership = membership + membershipFee;
+const totalDiscountedPerMonth = discounted * frequency;
+const savingsVsNational = average - totalMembership;
+
+let voucherTotal = 0;
+if (totalHours > 6) {
+    voucherTotal = 79 + ((totalHours - 6) * 23);
+} else {
+    voucherTotal = getVoucherDiscount(totalHours);
+}
+
+const savingsWithVoucher = regular - (voucherTotal + membershipFee);
+const savingsWithVoucher2 = average - (voucherTotal + membershipFee);
+const voucherTotal2 = voucherTotal + membershipFee;
+const nationalMembership = average - discounted;
+
             nationalMembership = average - discounted;
             document.getElementById(elementId).innerHTML +=
                 `Recommended Hours: ${hours} HOURS 🕰️<br>` +
